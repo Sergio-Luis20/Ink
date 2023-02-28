@@ -102,9 +102,6 @@ public abstract class Ink implements Serializable {
     }
 
     public static void writeInk(OutputStream outputStream, Ink ink) throws TransformerException, IOException {
-        if(outputStream instanceof FileOutputStream fileOS) {
-            
-        }
         Document document = docBuilder.newDocument();
         document.appendChild(ink.write(document));
         save(document, outputStream);
@@ -126,11 +123,8 @@ public abstract class Ink implements Serializable {
     }
 
     public static String getTagName(Class<? extends Ink> clazz) {
-        if(clazz.isAnnotationPresent(TagName.class)) {
-            return clazz.getAnnotation(TagName.class).value();
-        } else {
-            return clazz.isAnonymousClass() ? DEFAULT_TAG_NAME : clazz.getSimpleName();
-        }
+    	return clazz.isAnnotationPresent(TagName.class) ? clazz.getAnnotation(TagName.class).value() 
+    			: clazz.isAnonymousClass() ? DEFAULT_TAG_NAME : clazz.getSimpleName();
     }
 
     public static void validateInk(Object obj) {
